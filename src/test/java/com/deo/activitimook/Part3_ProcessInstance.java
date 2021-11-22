@@ -34,7 +34,7 @@ public class Part3_ProcessInstance {
          */
 
         ProcessInstance processInstance = runtimeService
-                .startProcessInstanceByKey("myProcess_claim", "bKey002");
+                .startProcessInstanceByKey("myProcess_UEL_V2", "bKey002");
 
         System.out.println("流程实例ID:" + processInstance.getProcessInstanceId());
     }
