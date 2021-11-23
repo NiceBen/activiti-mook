@@ -32,12 +32,12 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Configuration
+//@Configuration
 public class DemoApplicationConfiguration {
 
     private Logger logger = LoggerFactory.getLogger(DemoApplicationConfiguration.class);
 
-    @Bean
+//    @Bean
     public UserDetailsService myUserDetailsService() {
 
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
