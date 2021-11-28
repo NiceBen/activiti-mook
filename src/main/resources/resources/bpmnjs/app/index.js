@@ -49,6 +49,7 @@ $(function () {
     // 创建bpmn
     var param = tools.getUrlParam(window.location.href)
         $('.item').show()
+    /* --zsl
     if (param.type === 'addBpmn') {
         tools.createDiagram(diagramXML, bpmnModeler, container);
     } else if (param.type === 'lookBpmn') { //编辑bpmn
@@ -130,6 +131,7 @@ $(function () {
        // const text=$("#deploymentName").val()
         tools.saveBpmn(bpmnModeler)
     })
+    */
 
 
 

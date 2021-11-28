@@ -1,5 +1,9 @@
 package com.deo.activitimook.security;
 
+import com.deo.activitimook.util.AjaxResponse;
+import com.deo.activitimook.util.GlobalConfig;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -21,6 +25,9 @@ import java.io.IOException;
 @Component("LoginSuccessHandler")
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     /*
     页面表单，登录响应请求
      */
@@ -35,6 +42,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         httpServletResponse.setContentType("application/json;charset=UTF-8");
-        httpServletResponse.getWriter().write("登录成功：LoginSuccessHandler，登录人：" + authentication.getName());
+//        httpServletResponse.getWriter().write("登录成功：LoginSuccessHandler，登录人：" + authentication.getName());
+        httpServletResponse.getWriter().write(
+                objectMapper.writeValueAsString(
+                        AjaxResponse.AjaxData(GlobalConfig.ResponseCode.SUCCESS.getCode(),
+                                GlobalConfig.ResponseCode.SUCCESS.getDesc(),
+                                authentication.getName())
+                )
+        );
     }
 }
