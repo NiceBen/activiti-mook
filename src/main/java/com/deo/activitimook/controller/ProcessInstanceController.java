@@ -74,6 +74,7 @@ public class ProcessInstanceController {
                 hashMap.put("processDefinitionKey", pi.getProcessDefinitionKey());
                 hashMap.put("startDate", pi.getStartDate());
                 hashMap.put("processDefinitionVersion", pi.getProcessDefinitionVersion());
+                hashMap.put("businessKey", pi.getBusinessKey());
 
                 // 因为 pi 没有历史高亮需要的 deploymentId 和资源Name，所以需要再次查询
                 ProcessDefinition pd = repositoryService.createProcessDefinitionQuery()
