@@ -43,4 +43,7 @@ public interface ActivitiMapper {
             "</foreach></script>")
     int insertFormData(@Param("maps") List<HashMap<String, Object>> maps);
 
+    // 获取用户列表
+    @Select("SELECT name, username FROM user")
+    List<HashMap<String, Object>> selectUser();
 }
