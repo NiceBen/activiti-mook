@@ -122,6 +122,14 @@ public class TaskController {
             }
             Task task = taskRuntime.task(taskID);
 
+            // ---- 构件表单控件历史数据字典-----
+            HashMap<String, String> controlListMap = new HashMap<>();
+            // 读取数据库本实例下所有的表单数据
+            List<HashMap<String, Object>> tempControlList = activitiMapper.selectFormData(task.getProcessInstanceId());
+            for (HashMap<String, Object> ls : tempControlList) {
+                controlListMap.put(ls.get("Control_ID_").toString(), ls.get("Control_VALUE_").toString());
+            }
+
             UserTask userTask = (UserTask) repositoryService.getBpmnModel(task.getProcessDefinitionId())
                     .getFlowElement(task.getFormKey());
 
@@ -142,7 +150,17 @@ public class TaskController {
                 hashMap.put("id", splitFP[0]);
                 hashMap.put("controlType", splitFP[1]);
                 hashMap.put("controlLabel", splitFP[2]);
-                hashMap.put("controlDefValue", splitFP[3]);
+//                hashMap.put("controlDefValue", splitFP[3]);
+                // 如果默认值是表单控件ID
+                if (splitFP[3].startsWith("FormProperty_")) {
+                    if (controlListMap.containsKey(splitFP[3])) {
+                        hashMap.put("controlDefValue", controlListMap.get(splitFP[3]));
+                    } else {
+                        hashMap.put("controlDefValue", "读取失败，检查配置");
+                    }
+                } else {
+                    hashMap.put("controlDefValue", splitFP[3]);
+                }
                 hashMap.put("controlParam", splitFP[4]);
                 listMap.add(hashMap);
             }
@@ -194,6 +212,11 @@ public class TaskController {
                 listMap.add(hashMap);
 
                 // 这里需要进行判断，当前参数是否需要作为流程变量
+                /*
+                注意：对于下一节点候选人的问题：
+                    节点1，节点2。对于“节点2”设置为UEL表达时候，需要节点1在完成任务时，将节点2需要的变量传递过来（条件、候选人），name就要在节点1上配置需要的属性。
+                    1.分为两种情况：第一种：系统自动知道下一个节点的执行人。第二种：在节点1进行选择节点2的执行人。
+                 */
                 switch (formDataItem[2]) {
                     case "f":
                         System.out.println("控件值不作为参数！");

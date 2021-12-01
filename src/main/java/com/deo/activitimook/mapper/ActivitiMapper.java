@@ -3,6 +3,7 @@ package com.deo.activitimook.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -20,6 +21,11 @@ import java.util.List;
 public interface ActivitiMapper {
     // 正式项目应该使用 generator 插件
 
+    /**
+     * 读取表单
+     */
+    @Select("SELECT Control_ID_, Control_VALUE_ FROM formdata WHERE PROC_INST_ID_ = #{PROC_INST_ID_}")
+    List<HashMap<String, Object>> selectFormData(@Param("PROC_INST_ID_") String PROC_INST_ID_);
 
     /**
      * 插入 form 表单数据
