@@ -94,7 +94,7 @@ public class ProcessInstanceController {
         }
     }
 
-    // 启动流程实例
+    // 启动流程实例（参数中应该添加“业务ID”以及“企业ID”，并将业务ID绑定流程实例，企业ID添加到流程变量中）
     @GetMapping(value = "/startProcess")
     public AjaxResponse startProcess(@RequestParam("processDefinitionKey") String processDefinitionKey,
                                      @RequestParam("instanceName") String instanceName) {
