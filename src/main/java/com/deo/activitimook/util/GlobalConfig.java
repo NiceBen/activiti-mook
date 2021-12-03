@@ -13,6 +13,12 @@ public class GlobalConfig {
 
     public static final Boolean IS_TEST = true;
 
+    // Windows 发布路径
+    public static final String WINDOWS_BPMN_PATH_MAPPING = "file:D:\\IntelliJIDEA\\workspace\\others\\activiti-mook-12\\src\\main\\resources\\resources\\bpmn\\";
+
+    // Linux 发布路径
+//    public static final String LINUX_BPMN_PATH_MAPPING = "root/activiti/bpmn";
+
     public enum ResponseCode {
         SUCCESS(0, "成功"),
         ERROR(1, "错误");

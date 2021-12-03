@@ -1,6 +1,7 @@
 package com.deo.activitimook.controller;
 
 import com.deo.activitimook.util.AjaxResponse;
+import com.deo.activitimook.util.GlobalConfig;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -9,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.zip.ZipInputStream;
 
 /**
@@ -68,14 +72,16 @@ public class ProcessDefinitionController {
         }
     }
 
+
     // 添加流程定义-通过在线提交bpmn的XML
     @PostMapping(value = "/addDeploymentByString")
-    public AjaxResponse addDeploymentByString(@RequestParam("stringBPMN") String stringBPMN,
-                                                  @RequestParam("deploymentName") String deploymentName) {
+    public AjaxResponse addDeploymentByString(@RequestParam("stringBPMN") String stringBPMN
+//            ,@RequestParam("deploymentName") String deploymentName        // 真实的名称可以通过xml，进行定义
+    ) {
         try {
             Deployment deployment = repositoryService.createDeployment()
                     .addString("CreateWithBPMNJS.bpmn", stringBPMN)
-                    .name(deploymentName)
+                    .name("这里不需要传递名称")
                     .deploy();
 
             return AjaxResponse.success(deployment.getId());
@@ -178,6 +184,47 @@ public class ProcessDefinitionController {
             return AjaxResponse.error("删除流程定义失败", e.toString());
         }
     }
+
+    // 上传文件(所有文件，包含BPMN)
+    @PostMapping(value = "/upload")
+    public AjaxResponse upload(HttpServletRequest request,
+                               @RequestParam("processFile") MultipartFile multipartFile) {
+        try {
+            if (multipartFile.isEmpty()) {
+                System.out.println("文件为空");
+            }
+            String fileName = multipartFile.getOriginalFilename();//文件名
+            String suffixName = fileName.substring(fileName.lastIndexOf("."));//后缀名
+            String filePath = GlobalConfig.WINDOWS_BPMN_PATH_MAPPING;
+            // 修改路径格式
+            filePath = filePath.replace("\\", "/");
+            filePath = filePath.replace("file:", "");
+
+
+            String prefixName = fileName.substring(0, fileName.lastIndexOf("."));   // 前缀名
+
+            fileName = prefixName + "-" + UUID.randomUUID() + suffixName;// 新的文件名
+            File file = new File(filePath + fileName);
+
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+
+            try {
+                multipartFile.transferTo(file);
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+
+            return AjaxResponse.success(fileName);
+        } catch (Exception e) {
+            return AjaxResponse.error("上传文件失败", e.toString());
+        }
+
+
+
+    }
+
 
 
 }

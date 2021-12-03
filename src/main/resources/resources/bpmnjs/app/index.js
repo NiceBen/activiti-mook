@@ -14,6 +14,11 @@ const href = window.location.href.split("bpmnjs")[0];
 const key = href.split(window.location.host)[1];
 const publicurl = proHost + key;
 
+// 222 引入
+import tools222 from "../resources/tools222";
+
+
+
 // 添加翻译组件
 var customTranslateModule = {
     translate: ['value', customTranslate]
@@ -139,8 +144,27 @@ $(function () {
     $("#downloadBpmn").on("click", function () {
         tools.downLoad(bpmnModeler)
     })
+
     // 点击上传
     $("#uploadFile").on("change", function () {
         tools.upload(bpmnModeler,container)
+    })
+
+
+    // zsl-222
+    // 下载BPMN
+    $("#downloadBpmn222").on("click", function () {
+        tools222.downLoad(bpmnModeler);
+    })
+
+    // 部署BPMN
+    $("#saveBpmn222").on("click", function () {
+        tools222.saveBpmn(bpmnModeler);
+    })
+
+    // uploadFile222
+    // 上传BPMN
+    $("#uploadFile222").on("change", function () {
+        tools222.uploadBPMN(bpmnModeler);
     })
 });
