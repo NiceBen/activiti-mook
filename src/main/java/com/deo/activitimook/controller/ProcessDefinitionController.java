@@ -122,10 +122,10 @@ public class ProcessDefinitionController {
     // 获取流程定义XML
     @GetMapping(value = "/getDefinitionXML")
     public void getDefinitionXML(HttpServletResponse response,
-                                         @RequestParam("deploymentID") String deploymentID,
+                                         @RequestParam("deploymentId") String deploymentId,
                                          @RequestParam("resourceName") String resourceName) {
         try {
-            InputStream inputStream = repositoryService.getResourceAsStream(deploymentID, resourceName);
+            InputStream inputStream = repositoryService.getResourceAsStream(deploymentId, resourceName);
             int count = inputStream.available();
             byte[] bytes = new byte[count];
             response.setContentType("text/xml");

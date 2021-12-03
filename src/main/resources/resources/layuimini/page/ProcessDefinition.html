@@ -171,7 +171,7 @@
             } else if (obj.event === 'delete') {
                 doDel(obj);
             }else if(obj.event === 'look'){
-                window.open(''+publicurl+'bpmnjs/dist/index.html?type=lookBpmn&deploymentFileUUID='+data.deploymentID+'&deploymentName='+ encodeURI(data.resourceName)+'');
+                window.open(''+publicurl+'bpmnjs/dist/index.html?type=lookBpmn&deploymentFileUUID='+data.deploymentId+'&deploymentName='+ encodeURI(data.resourceName)+'');
             }
         });
         /* 上传流程文件 */

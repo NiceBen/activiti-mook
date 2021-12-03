@@ -16,6 +16,7 @@ const publicurl = proHost + key;
 
 // 222 引入
 import tools222 from "../resources/tools222";
+import {getMovedSourceAnchor} from "diagram-js/lib/features/modeling/cmd/helper/AnchorsHelper";
 
 
 
@@ -54,7 +55,14 @@ $(function () {
     // 创建bpmn
     var param = tools.getUrlParam(window.location.href)
         $('.item').show()
-    /* --zsl
+    /* --zsl*/
+    alert(param);
+    if (param) {
+
+        debugger;
+        alert("param.type:" + param.type);
+        alert(param.type === 'lookBpmn');
+
     if (param.type === 'addBpmn') {
         tools.createDiagram(diagramXML, bpmnModeler, container);
     } else if (param.type === 'lookBpmn') { //编辑bpmn
@@ -68,12 +76,14 @@ $(function () {
             "deploymentId":Id,
             "resourceName":decodeURI(Name)
         }
+        alert("deploymentId:" + Id + ",resourceName:" + decodeURI(Name));
+        alert("instanceId:" + instanceId);
         if(instanceId){
             var param1={
                 instanceId
             }
             $.ajax({
-                url: publicurl+'activitiHistory/gethighLine',
+                url: publicurl+'activitiHistory/getHighLine',
                 type: 'GET',
                 data: param1,
                 dataType:'json',
@@ -104,6 +114,7 @@ $(function () {
             });
         }else{
             //加载后台方法获取xml
+            alert("进入到：加载后台方法获取xml||publicurl:" + publicurl);
             $.ajax({
                 url: publicurl+'processDefinition/getDefinitionXML',
                 type: 'GET',
@@ -122,6 +133,8 @@ $(function () {
         $('.item').hide()
         $('.download').show()
     }
+
+    }
     // 点击新增
     $('#js-download-diagram').on("click", function () {
        tools.syopen('alert')
@@ -136,7 +149,7 @@ $(function () {
        // const text=$("#deploymentName").val()
         tools.saveBpmn(bpmnModeler)
     })
-    */
+    /**/
 
 
 
