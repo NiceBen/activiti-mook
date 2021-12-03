@@ -239,6 +239,11 @@ public class TaskController {
                 }
             }
 
+            // 如果为候选人，先拾取，再完成；否则直接完成
+            if (task.getAssignee() == null) {
+                taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(task.getId()).build());
+            }
+
             // 1.完成任务
             if (hasVariables) {
                 // 带有参数
