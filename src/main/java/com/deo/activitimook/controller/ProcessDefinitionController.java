@@ -101,12 +101,13 @@ public class ProcessDefinitionController {
             for (ProcessDefinition pd : list) {
                 HashMap<String, Object> hashMap = new HashMap<>();
 
+                //System.out.println("流程定义ID："+pd.getId());
+                hashMap.put("processDefinitionID", pd.getId());
                 hashMap.put("name", pd.getName());
                 hashMap.put("key", pd.getKey());
                 hashMap.put("resourceName", pd.getResourceName());
-                hashMap.put("deploymentId", pd.getDeploymentId());
+                hashMap.put("deploymentID", pd.getDeploymentId());
                 hashMap.put("version", pd.getVersion());
-
                 listMap.add(hashMap);
             }
 
@@ -174,9 +175,9 @@ public class ProcessDefinitionController {
 
     // 删除流程定义
     @GetMapping(value = "/delDefinition")
-    public AjaxResponse delDefinition(@RequestParam("pdID") String pdID) {
+    public AjaxResponse delDefinition(@RequestParam("depID") String depID) {
         try {
-            repositoryService.deleteDeployment(pdID, true);
+            repositoryService.deleteDeployment(depID, true);
 
             return AjaxResponse.success();
         } catch (Exception e) {
