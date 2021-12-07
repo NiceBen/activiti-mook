@@ -16,7 +16,7 @@
     <name>activiti-mook</name>
     <description>Demo project for Spring Boot</description>
     <!-- 将Spring固定的jar包发布修改为War包发布 -->
-    <packaging>war</packaging>
+<!--    <packaging>war</packaging>-->
 
     <properties>
         <java.version>1.8</java.version>
@@ -65,6 +65,13 @@
             <version>7.1.0.M4</version>
             <type>pom</type>
         </dependency>
+
+        <!-- 定义在阿里云私有仓库的 达梦数据库jar包 -->
+<!--        <dependency>-->
+<!--            <groupId>com.niceben</groupId>-->
+<!--            <artifactId>activiti-dm</artifactId>-->
+<!--            <version>1.0</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
