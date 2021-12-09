@@ -37,8 +37,9 @@ public class ProcessDefinitionController {
 
     // 添加流程定义-通过上传bpmn
     @PostMapping(value = "/uploadStreamAndDeployment")
-    public AjaxResponse uploadStreamAndDeployment(@RequestParam("processFile") MultipartFile multipartFile,
-                                                  @RequestParam("deploymentName") String deploymentName) {
+    public AjaxResponse uploadStreamAndDeployment(@RequestParam("processFile") MultipartFile multipartFile
+//            ,@RequestParam("deploymentName") String deploymentName
+    ) {
         try {
             // 获取上传文件名
             String fileName = multipartFile.getOriginalFilename();
@@ -54,13 +55,13 @@ public class ProcessDefinitionController {
                 ZipInputStream zip = new ZipInputStream(fileInputStream);
                 deployment = repositoryService.createDeployment()
                         .addZipInputStream(zip)
-                        .name(deploymentName)
+//                        .name(deploymentName)
                         .deploy();
             } else {
                 // 上传的是bpmn文件
                 deployment = repositoryService.createDeployment()
                         .addInputStream(fileName, fileInputStream)
-                        .name(deploymentName)
+//                        .name(deploymentName)
                         .deploy();
             }
 
