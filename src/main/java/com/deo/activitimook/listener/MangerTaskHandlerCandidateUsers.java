@@ -7,7 +7,6 @@ import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.delegate.TaskListener;
 import org.springframework.context.ApplicationContext;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,6 +16,7 @@ import java.util.List;
  * @since TODO
  */
 public class MangerTaskHandlerCandidateUsers implements TaskListener {
+    private static final long serialVersionUID = 1L;
 
     private ApplicationContext applicationContext = SpringContextHolder.getApplicationContext();
 
@@ -24,7 +24,6 @@ public class MangerTaskHandlerCandidateUsers implements TaskListener {
 
     private Expression crId;
 
-        private static final long serialVersionUID = 1L;
         @Override
         public void notify(DelegateTask delegateTask) {
 
