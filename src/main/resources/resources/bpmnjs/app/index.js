@@ -56,84 +56,73 @@ $(function () {
     var param = tools.getUrlParam(window.location.href)
         $('.item').show()
     /* --zsl*/
-    alert(param);
     if (param) {
-
-        debugger;
-        alert("param.type:" + param.type);
-        alert(param.type === 'lookBpmn');
-
-    if (param.type === 'addBpmn') {
-        tools.createDiagram(diagramXML, bpmnModeler, container);
-    } else if (param.type === 'lookBpmn') { //编辑bpmn
-        debugger
-        $('.item').hide()
-        $('.download').show()
-        const Id = param.deploymentFileUUID || '6d4af2dc-bab0-11ea-b584-3cf011eaafca'
-        const Name=param.deploymentName || 'String.bpmn'
-        const instanceId=param.instanceId
-        var param={
-            "deploymentId":Id,
-            "resourceName":decodeURI(Name)
-        }
-        alert("deploymentId:" + Id + ",resourceName:" + decodeURI(Name));
-        alert("instanceId:" + instanceId);
-        if(instanceId){
-            var param1={
-                instanceId
+        if (param.type === 'addBpmn') {
+            tools.createDiagram(diagramXML, bpmnModeler, container);
+        } else if (param.type === 'lookBpmn') { //编辑bpmn
+            $('.item').hide()
+            $('.download').show()
+            const Id = param.deploymentFileUUID || '6d4af2dc-bab0-11ea-b584-3cf011eaafca'
+            const Name=param.deploymentName || 'String.bpmn'
+            const instanceId=param.instanceId
+            var param={
+                "deploymentId":Id,
+                "resourceName":decodeURI(Name)
             }
-            $.ajax({
-                url: publicurl+'activitiHistory/getHighLine',
-                type: 'GET',
-                data: param1,
-                dataType:'json',
-                success: function (result) {
-                  var ColorJson=tools.getByColor(result.obj)
-                    $.ajax({
-                        url: publicurl+'processDefinition/getDefinitionXML',
-                        type: 'GET',
-                        data: param,
-                        dataType:'text',
-                        success: function (result) {
-                            var newXmlData = result
-                            tools.createDiagram(newXmlData, bpmnModeler, container);
-                            setTimeout(function () {
-                                for (var i in ColorJson) {
-                                    tools.setColor(ColorJson[i],bpmnModeler)
-                                }
-                            }, 200)
-                        },
-                        error: function (err) {
-                            console.log(err)
-                        }
-                    });
-                },
-                error: function (err) {
-                    console.log(err)
+            if(instanceId){
+                var param1={
+                    instanceId
                 }
-            });
-        }else{
-            //加载后台方法获取xml
-            alert("进入到：加载后台方法获取xml||publicurl:" + publicurl);
-            $.ajax({
-                url: publicurl+'processDefinition/getDefinitionXML',
-                type: 'GET',
-                data: param,
-                dataType:'text',
-                success: function (result) {
-                    var newXmlData = result
-                    tools.createDiagram(newXmlData, bpmnModeler, container);
-                },
-                error: function (err) {
-                    console.log(err)
-                }
-            });
+                $.ajax({
+                    url: publicurl+'activitiHistory/getHighLine',
+                    type: 'GET',
+                    data: param1,
+                    dataType:'json',
+                    success: function (result) {
+                      var ColorJson=tools.getByColor(result.obj)
+                        $.ajax({
+                            url: publicurl+'processDefinition/getDefinitionXML',
+                            type: 'GET',
+                            data: param,
+                            dataType:'text',
+                            success: function (result) {
+                                var newXmlData = result
+                                tools.createDiagram(newXmlData, bpmnModeler, container);
+                                setTimeout(function () {
+                                    for (var i in ColorJson) {
+                                        tools.setColor(ColorJson[i],bpmnModeler)
+                                    }
+                                }, 200)
+                            },
+                            error: function (err) {
+                                console.log(err)
+                            }
+                        });
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                });
+            }else{
+                //加载后台方法获取xml
+                $.ajax({
+                    url: publicurl+'processDefinition/getDefinitionXML',
+                    type: 'GET',
+                    data: param,
+                    dataType:'text',
+                    success: function (result) {
+                        var newXmlData = result
+                        tools.createDiagram(newXmlData, bpmnModeler, container);
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                });
+            }
+        } else if(param.type === "historyBpmn") { // bpmn历史
+            $('.item').hide()
+            $('.download').show()
         }
-    } else if(param.type === "historyBpmn") { // bpmn历史
-        $('.item').hide()
-        $('.download').show()
-    }
-
     }
     // 点击新增
     $('#js-download-diagram').on("click", function () {
